@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prediction Result</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #fff;
+      color: #222;
+    }
+    h2 {
+      margin-bottom: 10px;
+    }
+    p {
+      margin: 6px 0;
+    }
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #0074D9;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  {% if pred == 1 %}
+    <h2>Customer is likely to subscribe.</h2>
+  {% else %}
+    <h2>Customer is not likely to subscribe.</h2>
+  {% endif %}
+
+  <p>Predicted probability: {{ '%.2f'|format(proba*100) }}%</p>
+
+  <a href="/">Back to prediction form</a>
+</body>
+</html>
