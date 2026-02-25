@@ -1,11 +1,13 @@
 import pytest
 from app import app
 
+
 @pytest.fixture
 def client():
     app.testing = True
     with app.test_client() as client:
         yield client
+
 
 def valid_payload():
     return {
@@ -26,8 +28,9 @@ def valid_payload():
         "previous": 0,
         "emp.var.rate": 1.1,
         "cons.price.idx": 93.2,
-        "cons.conf.idx": -40.0
+        "cons.conf.idx": -40.0,
     }
+
 
 def test_predict_api_success(client):
     response = client.post("/predict", json=valid_payload())

@@ -1,4 +1,4 @@
-name: Basic CI
+name: CI
 
 on:
   push:
@@ -6,20 +6,23 @@ on:
       - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.9"
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Import Flask app
-        run: python -c "import app"
+      - name: Run linter
+        run: python -m flake8 .
+
+      - name: Run tests
+        run: pytest
