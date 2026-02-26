@@ -32,3 +32,7 @@ jobs:
 
       - name: Log in to DockerHub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Push Docker image
+        if: github.ref == 'refs/heads/main'
+        run: docker push karanmanola/flask-ml-api:latest 
