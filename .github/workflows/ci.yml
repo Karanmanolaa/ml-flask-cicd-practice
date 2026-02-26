@@ -28,7 +28,7 @@ jobs:
         run: pytest
 
       - name: Build Docker image
-        run: docker build -t karan-ml-api:test .
+        run: docker build -t karanmanola/flask-ml-api:latest .
 
       - name: Log in to DockerHub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
