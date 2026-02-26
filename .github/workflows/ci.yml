@@ -3,10 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - '**'   # Run CI on all branches
 
 jobs:
-  test:
+  test-and-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,11 +28,16 @@ jobs:
         run: pytest
 
       - name: Build Docker image
-        run: docker build -t karanmanola/flask-ml-api:latest .
+        run: |
+          docker build -t karanmanola/flask-ml-api:${{ github.sha }} .
+          docker tag karanmanola/flask-ml-api:${{ github.sha }} karanmanola/flask-ml-api:latest
 
       - name: Log in to DockerHub
+        if: github.ref == 'refs/heads/main'
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-      - name: Push Docker image
+      - name: Push Docker images
         if: github.ref == 'refs/heads/main'
-        run: docker push karanmanola/flask-ml-api:latest 
+        run: |
+          docker push karanmanola/flask-ml-api:${{ github.sha }}
+          docker push karanmanola/flask-ml-api:latest
